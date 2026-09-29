@@ -1,0 +1,33 @@
+
+  <!-- MODULE NAV — Figma: Home / Dispatch / Equipment / … ; Equipment opens the
+       Equipment ▸ Diagnostics ▸ TMPS flyouts, the only route into this page. -->
+  <nav class="module-nav" id="moduleNav" aria-label="Modules">
+    <div class="nav-item"><button class="nav-link" type="button">Home</button></div>
+    <div class="nav-item"><button class="nav-link" type="button">Dispatch</button></div>
+    <div class="nav-item" id="navEquipment">
+      <button class="nav-link active" id="navEquipBtn" type="button" aria-haspopup="true" aria-expanded="false">Equipment</button>
+      <div class="nav-menu" id="equipMenu" hidden>
+        <button class="nav-menu-item" type="button" data-go="equipment">Equipment</button>
+        <div style="position:relative">
+          <button class="nav-menu-item" id="diagBtn" type="button" aria-haspopup="true" aria-expanded="false">Diagnostics <i data-lucide="chevron-right"></i></button>
+          <div class="nav-submenu" id="diagMenu" hidden>
+            <button class="nav-menu-item" type="button" aria-disabled="true" title="Not part of this prototype">Axle Weights</button>
+            <button class="nav-menu-item" type="button" aria-disabled="true" title="Not part of this prototype">DVIR Scans</button>
+            <button class="nav-menu-item" type="button" aria-disabled="true" title="Not part of this prototype">Security</button>
+            <button class="nav-menu-item" type="button" aria-disabled="true" title="Not part of this prototype">Security Sensor</button>
+            <button class="nav-menu-item" type="button" aria-disabled="true" title="Not part of this prototype">Temperature Sensor</button>
+            <button class="nav-menu-item" type="button" data-go="tmps" id="navTmps">TMPS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-item"><button class="nav-link" type="button">Customer</button></div>
+    <div class="nav-item"><button class="nav-link" type="button">Personnel</button></div>
+    <div class="nav-item"><button class="nav-link" type="button">Safety</button></div>
+    <div class="nav-item"><button class="nav-link" type="button">Billing</button></div>
+    <div class="nav-item"><button class="nav-link" type="button">Sales</button></div>
+    <div class="nav-item"><button class="nav-link" type="button">Reporting</button></div>
+    <div class="nav-item"><button class="nav-link" type="button">Accounting</button></div>
+  </nav>
+
+  <div class="app-body">

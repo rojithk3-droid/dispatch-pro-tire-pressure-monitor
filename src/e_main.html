@@ -1,0 +1,348 @@
+
+    <main class="content">
+
+      <!-- ============ 1 · EQUIPMENT (Figma start frame) ============ -->
+      <section class="view" id="view-equipment">
+        <div class="page-header-band">
+          <div class="page-head"><div class="page-head-text">
+            <div class="page-title-row"><h1 class="page-title">Equipment</h1></div>
+            <p class="page-subtitle">Trucks, trailers and the sensors that report from them.</p>
+          </div></div>
+        </div>
+        <div class="content-scroll"><div class="content-inner">
+          <div class="card">
+            <div class="empty-state">
+              <div class="empty-icon"><i data-lucide="gauge"></i></div>
+              <h3 class="empty-title">Tire pressure monitoring lives under Diagnostics</h3>
+              <p>Open <b>Equipment &#9656; Diagnostics &#9656; TMPS</b> from the menu above, or jump straight in.</p>
+              <button class="btn-primary" type="button" data-go="tmps"><i data-lucide="gauge"></i> Open TMPS</button>
+            </div>
+          </div>
+        </div></div>
+      </section>
+
+      <!-- ============ 2 · TMPS FLEET LIST ============ -->
+      <section class="view" id="view-tmps" hidden>
+        <div class="page-header-band">
+          <div class="page-head"><div class="page-head-text">
+            <div class="page-title-row">
+              <h1 class="page-title">Tire Pressure Monitor</h1>
+              <span class="badge" data-variant="success"><span class="live-dot"></span> Live</span>
+            </div>
+            <p class="page-subtitle">Pressure and temperature from every TPMS sensor across your trucks and trailers.</p>
+          </div></div>
+        </div>
+        <div class="content-scroll"><div class="content-inner">
+
+          <div class="kpi-strip four" id="fleetKpis"></div>
+
+          <div class="fleet-main">
+            <div class="card">
+              <div class="card-head">
+                <div class="card-head-text"><div class="card-title-row">
+                  <h2 class="card-title">Asset Status</h2><span class="badge" id="assetCount">0</span>
+                </div></div>
+                <div class="card-head-actions tools-row">
+                  <div class="dropdown" id="statusFilterMount" data-size="sm"></div>
+                  <div class="search-field"><i data-lucide="search"></i>
+                    <input class="text-input" id="assetSearch" type="text" placeholder="Search Truck" autocomplete="off" style="height:var(--h-8)">
+                  </div>
+                  <div class="segmented" id="typeSeg" data-size="sm" role="tablist">
+                    <button type="button" class="active" data-type="truck"><i data-lucide="truck"></i> Truck</button>
+                    <button type="button" data-type="trailer"><i data-lucide="container"></i> Trailer</button>
+                  </div>
+                </div>
+              </div>
+              <div class="data-grid"><div class="data-grid-scroll">
+                <table class="pay-table clickable" id="assetTable">
+                  <thead><tr>
+                    <th class="sortable" data-sort="id">Asset<span class="sort"><i data-lucide="arrow-up-down"></i></span></th>
+                    <th>Current location</th><th>Current driver</th><th>Tires</th><th>Worst reading</th>
+                    <th class="sortable" data-sort="status">Tire status<span class="sort"><i data-lucide="arrow-up-down"></i></span></th>
+                  </tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="grid-empty" id="assetEmpty" hidden>
+                <div class="grid-empty-icon"><i data-lucide="search-x"></i></div>
+                <p>No assets match this filter. Clear the search or pick another tire status.</p>
+                <button class="btn-outline" data-size="sm" type="button" id="clearFilters">Clear filters</button>
+              </div></div>
+            </div>
+
+            <div class="fleet-side">
+              <div class="card">
+                <div class="card-head">
+                  <div class="card-head-text"><h2 class="card-title">Overall Fleet Status</h2><p class="card-desc" id="fleetDesc"></p></div>
+                </div>
+                <div class="donut-wrap">
+                  <div class="donut" id="donut">
+                    <svg viewBox="0 0 200 200" aria-hidden="true"><circle class="track" cx="100" cy="100" r="80"/></svg>
+                    <div class="donut-center"><b id="donutPct">0%</b><span id="donutLbl">Normal</span></div>
+                  </div>
+                  <div class="stat-list" id="statList"></div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-head">
+                  <div class="card-head-text"><div class="card-title-row"><h2 class="card-title">Needs attention</h2><span class="badge" id="attnCount" data-variant="danger">0</span></div>
+                    <p class="card-desc">Worst tires across the fleet, most urgent first.</p></div>
+                </div>
+                <ul class="attn-list" id="attnList"></ul>
+              </div>
+            </div>
+          </div>
+        </div></div>
+      </section>
+
+      <!-- ============ 3 · ASSET DETAIL ============ -->
+      <section class="view" id="view-detail" hidden>
+        <div class="page-header-band">
+          <div class="detail-bar">
+            <button class="back-btn" type="button" id="backBtn"><span class="back-ico"><i data-lucide="chevron-left"></i></span> Back</button>
+            <div class="asset-picker" id="assetPickerMount"></div>
+            <span class="badge" id="typeBadge">Truck</span>
+            <div class="spacer"></div>
+            <button class="btn-outline" type="button" id="gearBtn"><i data-lucide="bell-ring"></i> Alert settings</button>
+          </div>
+        </div>
+        <div class="content-scroll" id="detailScroll"><div class="content-inner">
+
+          <div class="kpi-strip" id="detailKpis"></div>
+
+          <div class="detail-main">
+            <div class="card stage-card">
+              <div class="card-head">
+                <div class="card-head-text"><h2 class="card-title" id="stageTitle">Vehicle</h2><p class="card-desc" id="stageSub">Hover a tire for its reading, click to inspect.</p></div>
+                <div class="segmented" id="modeSeg" role="tablist">
+                  <button type="button" class="active" data-mode="psi"><i data-lucide="gauge"></i> Air Pressure</button>
+                  <button type="button" data-mode="temp"><i data-lucide="thermometer"></i> Temperature</button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="tire-stage" id="tireStage">
+                  <canvas id="tireCanvas" tabindex="0" aria-label="3D model of the vehicle — drag to rotate, scroll to zoom, hover or click a tire"></canvas>
+                  <svg class="tag-lines" id="tagLines"></svg>
+                  <div class="tag-layer" id="tagLayer"></div>
+                  <div class="stage-tools">
+                    <div class="segmented" id="viewSeg" data-size="sm">
+                      <button type="button" data-view="top" class="active"><i data-lucide="layout-panel-top"></i> Top</button>
+                      <button type="button" data-view="iso"><i data-lucide="box"></i> 3D</button>
+                      <button type="button" data-view="side"><i data-lucide="rectangle-horizontal"></i> Side</button>
+                    </div>
+                    <div class="group">
+                      <button class="icon-action-btn" type="button" id="spinBtn" title="Auto-rotate" aria-label="Auto-rotate" aria-pressed="false"><i data-lucide="rotate-3d"></i></button>
+                      <button class="icon-action-btn" type="button" id="resetBtn" title="Reset view" aria-label="Reset view"><i data-lucide="scan"></i></button>
+                    </div>
+                  </div>
+                  <div class="stage-legend">
+                    <span class="badge" data-variant="success"><span class="dot"></span> In range</span>
+                    <span class="badge" data-variant="warning"><span class="dot"></span> Cautionary</span>
+                    <span class="badge" data-variant="danger"><span class="dot"></span> Critical</span>
+                  </div>
+                  <div class="stage-hint"><i data-lucide="mouse-pointer-click"></i> Drag to rotate &middot; scroll to zoom &middot; click a tire to focus</div>
+                  <div class="stage-fallback" id="stageFallback"><div><b>3D view unavailable</b><p>WebGL could not start in this browser. Tire values are still shown in the list.</p></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card roster-card">
+              <div class="card-head">
+                <div class="card-head-text"><div class="card-title-row"><h2 class="card-title">Tires</h2><span class="badge" id="rosterCount">0</span></div>
+                  <p class="card-desc" id="rosterSub">Linked to the model: hover a row to light up its tire.</p></div>
+                <div class="segmented" id="rosterSeg" data-size="sm">
+                  <button type="button" class="active" data-f="all">All</button>
+                  <button type="button" data-f="attn">Attention</button>
+                </div>
+              </div>
+              <div class="roster-list" id="rosterList"></div>
+            </div>
+          </div>
+
+          <div class="detail-lower">
+            <div class="card history-card">
+              <div class="card-head">
+                <div class="card-head-text"><h2 class="card-title">Historic Data</h2><p class="card-desc">Drag the chart to pan through time.</p></div>
+                <div class="range" id="rangeWrap">
+                  <button class="range-trigger" type="button" id="rangeBtn" aria-haspopup="true" aria-expanded="false"><span id="rangeText">—</span><i data-lucide="calendar-days"></i></button>
+                  <div class="dropdown-panel range-pop" id="rangePop" hidden>
+                    <div class="range-presets">
+                      <button type="button" data-days="1">Last 24 hours</button>
+                      <button type="button" data-days="7">Last 7 days</button>
+                      <button type="button" data-days="14">Last 14 days</button>
+                      <button type="button" data-days="30">Last 30 days</button>
+                    </div>
+                    <div class="range-fields">
+                      <div class="field"><label class="field-label" for="rangeFrom">From</label><input class="text-input" type="date" id="rangeFrom"></div>
+                      <div class="field"><label class="field-label" for="rangeTo">To</label><input class="text-input" type="date" id="rangeTo"></div>
+                    </div>
+                    <p class="field-error" id="rangeErr" hidden><i data-lucide="circle-alert"></i> <span></span></p>
+                    <button class="btn-primary" type="button" id="rangeApply" style="width:100%">Apply range</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="hist-hero">
+                  <div class="hero-l">
+                    <span class="hero-cap" id="heroCap">Average pressure</span>
+                    <div class="hero-row"><span class="hero-val" id="heroVal">—</span><span class="badge" id="heroDelta" hidden></span><span class="hero-vs" id="heroVs"></span></div>
+                  </div>
+                  <div class="history-tools">
+                    <div class="dropdown" id="tireSelMount" data-size="sm"></div>
+                    <div class="chart-legend" id="chartLegend"></div>
+                  </div>
+                </div>
+                <div class="chart-wrap" id="chartWrap">
+                  <svg id="chartSvg"></svg>
+                  <div class="ctip" id="chartTip"></div>
+                  <div class="chart-empty" id="chartEmpty" hidden><div class="grid-empty-icon"><i data-lucide="wifi-off"></i></div><span>No sensor data for this asset.</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card map-card">
+              <div class="card-head">
+                <div class="card-head-text"><div class="card-title-row"><h2 class="card-title">Route</h2><span class="badge" id="routeBadge" data-variant="info">In transit</span></div>
+                  <p class="card-desc" id="routeDesc"></p></div>
+                <button class="icon-action-btn" type="button" id="mapFit" title="Fit route" aria-label="Fit route"><i data-lucide="locate-fixed"></i></button>
+              </div>
+              <div class="card-body">
+                <div class="map-box">
+                  <div id="routeMap"></div>
+                  <div class="map-tools">
+                    <button class="icon-action-btn" type="button" id="mapIn" aria-label="Zoom in"><i data-lucide="zoom-in"></i></button>
+                    <button class="icon-action-btn" type="button" id="mapOut" aria-label="Zoom out"><i data-lucide="zoom-out"></i></button>
+                  </div>
+                  <button class="map-layers" type="button" id="mapLayers" aria-label="Map layers"><i data-lucide="layers"></i>Layers</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div></div>
+      </section>
+
+      <!-- ============ 4 · SETTINGS ============ -->
+      <section class="view" id="view-settings" hidden>
+        <div class="page-header-band">
+          <div class="page-head">
+            <div class="page-head-text">
+              <div class="page-title-row"><h1 class="page-title">Tire Pressure Monitor</h1><span class="badge" id="setAsset">DTL88</span></div>
+              <p class="page-subtitle">Settings &middot; alert thresholds and who gets told.</p>
+            </div>
+            <div class="page-head-actions" style="align-self:center">
+              <button class="btn-outline" data-size="sm" type="button" id="setBack"><i data-lucide="arrow-left"></i> Back to <span id="setBackLbl">DTL88</span></button>
+              <div class="segmented" id="setTabs" role="tablist">
+                <button type="button" data-tab="pressure">Air Pressure</button>
+                <button type="button" data-tab="temp">Temperature</button>
+                <button type="button" data-tab="sensor" class="active">Sensor</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-scroll"><div class="content-inner">
+          <div class="settings-grid" id="settingsCol" data-tab="sensor">
+
+            <div class="card" id="cardAlerts">
+              <div class="card-head">
+                <div class="card-head-lead"><span class="card-icon"><i data-lucide="radio-tower"></i></span>
+                  <div class="card-head-text"><h2 class="card-title">Alerts</h2><p class="card-desc">When a reading leaves its range, notify after the delay you choose.</p></div></div>
+                <button class="collapse-btn" type="button" data-collapse aria-label="Collapse section"><i data-lucide="chevron-up"></i></button>
+              </div>
+              <div class="card-body card-collapsible">
+                <div class="alert-row" data-kind="pressure">
+                  <div class="row-name"><span class="kpi-ico" data-tone="info"><i data-lucide="gauge"></i></span> Tire Pressure</div>
+                  <div class="alert-fields">
+                    <div class="field"><label class="field-label" for="psiMin">Normal range &middot; min</label>
+                      <div class="unit-input"><input class="text-input" id="psiMin" inputmode="numeric" placeholder="Min" autocomplete="off"><span class="unit">PSI</span></div>
+                      <p class="field-error" data-err="psiMin" hidden></p></div>
+                    <div class="field"><label class="field-label" for="psiMax">Normal range &middot; max</label>
+                      <div class="unit-input"><input class="text-input" id="psiMax" inputmode="numeric" placeholder="Max" autocomplete="off"><span class="unit">PSI</span></div>
+                      <p class="field-error" data-err="psiMax" hidden></p></div>
+                    <div class="field wide"><label class="field-label">Notify beyond</label><div class="dropdown" id="ddNotifyPsi"></div>
+                      <p class="field-error" data-err="notifyPsi" hidden></p></div>
+                  </div>
+                  <div class="zones" id="zonesPsi"></div>
+                </div>
+                <div class="alert-row" data-kind="temp">
+                  <div class="row-name"><span class="kpi-ico" data-tone="warning"><i data-lucide="thermometer"></i></span> Tire Temperature</div>
+                  <div class="alert-fields">
+                    <div class="field"><label class="field-label" for="tempBelow">Below setpoint &middot; SP1 (&deg;F)</label>
+                      <div class="unit-input"><input class="text-input" id="tempBelow" inputmode="numeric" placeholder="Min" autocomplete="off"><span class="unit">Degrees</span></div>
+                      <p class="field-error" data-err="tempBelow" hidden></p></div>
+                    <div class="field"><label class="field-label" for="tempAbove">Above setpoint &middot; SP1 (&deg;F)</label>
+                      <div class="unit-input"><input class="text-input" id="tempAbove" inputmode="numeric" placeholder="Max" autocomplete="off"><span class="unit">Degrees</span></div>
+                      <p class="field-error" data-err="tempAbove" hidden></p></div>
+                    <div class="field wide"><label class="field-label">Time beyond temp</label><div class="dropdown" id="ddNotifyTemp"></div>
+                      <p class="field-error" data-err="notifyTemp" hidden></p></div>
+                  </div>
+                  <div class="zones" id="zonesTemp"></div>
+                </div>
+                <div class="alert-note">
+                  <p><i data-lucide="info"></i> Variance of load entry temp vs actual temp reading notification while in transit status.</p>
+                  <button class="btn-primary" type="button" id="setAlertBtn">Set Alert</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-side">
+              <div class="card" id="cardBasic">
+                <div class="card-head">
+                  <div class="card-head-lead"><span class="card-icon"><i data-lucide="bell"></i></span>
+                    <div class="card-head-text"><div class="card-title-row"><h2 class="card-title">Basic Notification</h2><span class="badge" id="basicCount">4</span></div>
+                      <p class="card-desc">The standing roles for this asset.</p></div></div>
+                  <button class="collapse-btn" type="button" data-collapse aria-label="Collapse section"><i data-lucide="chevron-up"></i></button>
+                </div>
+                <div class="card-collapsible data-grid"><div class="data-grid-scroll">
+                  <table class="pay-table notif-table" id="basicTable">
+                    <thead><tr><th style="width:30%">Role</th><th>Recipients</th><th class="chk">Email</th><th class="chk">ProChat</th><th class="chk">SMS</th><th style="width:1%"></th></tr></thead>
+                    <tbody></tbody>
+                  </table>
+                  <div class="grid-empty" id="basicEmpty" hidden><div class="grid-empty-icon"><i data-lucide="bell-off"></i></div><p>No basic recipients left. Add someone under Additional Notification.</p></div>
+                </div></div>
+              </div>
+
+              <div class="card" id="cardExtra">
+                <div class="card-head">
+                  <div class="card-head-lead"><span class="card-icon"><i data-lucide="bell-plus"></i></span>
+                    <div class="card-head-text"><h2 class="card-title">Additional Notification</h2><p class="card-desc">Search a person or team to add them.</p></div></div>
+                  <button class="collapse-btn" type="button" data-collapse aria-label="Collapse section"><i data-lucide="chevron-up"></i></button>
+                </div>
+                <div class="card-collapsible data-grid"><div class="data-grid-scroll">
+                  <table class="pay-table notif-table" id="extraTable">
+                    <thead><tr><th style="width:30%">Role</th><th>Recipients</th><th class="chk">Email</th><th class="chk">ProChat</th><th class="chk">SMS</th><th style="width:1%"></th></tr></thead>
+                    <tbody></tbody>
+                  </table>
+                </div></div>
+              </div>
+            </div>
+
+          </div>
+        </div></div>
+        <div class="settings-bar">
+          <p><i data-lucide="info"></i> Alerts apply to this asset. Save to keep your notification changes.</p>
+          <div class="acts">
+            <button class="btn-outline" type="button" id="setCancel">Cancel</button>
+            <button class="btn-primary" type="button" id="setSave">Save Changes</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Success dialog — Figma: "Success! You have successfully set tire pressure alert" -->
+  <div class="dialog-overlay" id="successDlg" hidden>
+    <div class="dialog-panel narrow" role="dialog" aria-modal="true" aria-labelledby="sdTitle" aria-describedby="sdDesc">
+      <div class="success-dialog">
+        <svg class="success-mark" viewBox="0 0 62.5 62.5" aria-hidden="true"><circle cx="31.25" cy="31.25" r="29.5"/><path d="M19.5 32.5 l8.5 8.5 l16.5 -17.5"/></svg>
+        <h2 class="dialog-title" id="sdTitle">Success!</h2>
+        <p class="dialog-desc" id="sdDesc">You have successfully set tire pressure alert</p>
+        <div class="dialog-foot"><button class="btn-primary" type="button" id="sdContinue">Continue</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hcard" id="hcard" role="tooltip"></div>
+  <div class="toast-stack" id="toastStack"></div>
+
