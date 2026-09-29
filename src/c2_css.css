@@ -152,7 +152,7 @@
   /* the pressure bubble: a gauge ring (where the reading sits in its range) around the value */
   .tire-tag{
     --sc:#10B981; --st:var(--green);
-    position:absolute; width:45px; height:45px; border-radius:50%; padding:0; pointer-events:auto; display:block;
+    position:absolute; width:47.5px; height:47.5px; border-radius:50%; padding:0; pointer-events:auto; display:block;
     border:1.25px solid var(--border); background:var(--surface); color:var(--text-dark);
     font-family:inherit; cursor:pointer; user-select:none;
     transition:border-color .13s ease, background .13s ease, opacity .13s ease, box-shadow .13s ease;
@@ -162,10 +162,10 @@
   .tire-tag[data-s="unknown"]{ --sc:var(--text-faint); --st:var(--muted-fg); }
   [data-theme="dark"] .tire-tag[data-s="crit"]{ --st:#FCA5A5; }
   .tire-tag svg.ring{ position:absolute; inset:0; width:100%; height:100%; display:block; transform:rotate(-90deg); }
-  .tire-tag .rt{ fill:none; stroke:var(--segmented-track); stroke-width:8; }
-  .tire-tag .rv{ fill:none; stroke:var(--sc); stroke-width:8; stroke-linecap:round; transition:stroke-dasharray .45s ease, stroke .2s ease; }
+  .tire-tag .rt{ fill:none; stroke:var(--segmented-track); stroke-width:6.5; }
+  .tire-tag .rv{ fill:none; stroke:var(--sc); stroke-width:6.5; stroke-linecap:round; transition:stroke-dasharray .45s ease, stroke .2s ease; }
   .tt-val{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-  .tt-val b{ font-size:15px; line-height:15px; font-weight:700; color:var(--st); font-variant-numeric:tabular-nums; letter-spacing:-.3px; }
+  .tt-val b{ font-size:13.75px; line-height:15px; font-weight:700; color:var(--st); font-variant-numeric:tabular-nums; letter-spacing:-.4px; }
   .tt-val small{ font-size:10px; line-height:10px; font-weight:600; color:var(--muted-fg); letter-spacing:.3px; }
   .tt-n{
     position:absolute; top:-6.25px; right:-6.25px; min-width:17.5px; height:17.5px; padding:0 3.75px; border-radius:8.75px;

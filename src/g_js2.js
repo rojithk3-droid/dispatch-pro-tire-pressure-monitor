@@ -88,7 +88,7 @@ function buildPills(a){
     const el = document.createElement('button');
     el.type = 'button'; el.className = 'tire-tag'; el.dataset.n = l.n;
     el.setAttribute('aria-label', `Tire ${l.n}, ${l.axle}, ${l.pos}`);
-    el.innerHTML = `<svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="rt" cx="50" cy="50" r="42"/><circle class="rv" cx="50" cy="50" r="42" pathLength="100" stroke-dasharray="0 100"/></svg><span class="tt-val"></span><span class="tt-n">${l.n}</span>`;
+    el.innerHTML = `<svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="rt" cx="50" cy="50" r="45"/><circle class="rv" cx="50" cy="50" r="45" pathLength="100" stroke-dasharray="0 100"/></svg><span class="tt-val"></span><span class="tt-n">${l.n}</span>`;
     el.addEventListener('click', ev => pickTire(l.n, ev.shiftKey || ev.ctrlKey || ev.metaKey));
     el.addEventListener('pointerenter', () => { setHover(l.n); const r = el.getBoundingClientRect(); showHCard(tireCardHTML(byId(S.assetId), l.n), r.right, r.top); icons(); });
     el.addEventListener('pointerleave', () => setHover(null));
